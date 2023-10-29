@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 70,
         fontWeight: "200",
-        fontFamily: "RobotoMono-Bold"
+        fontFamily: "RobotoMonoBold"
     },
     control: {
         height: 70,

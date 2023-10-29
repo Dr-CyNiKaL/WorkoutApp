@@ -27,7 +27,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({navigation}) => {
                 <Text style={[styles.tracker, styles.workoutText]}>Tracker</Text>
                 <TouchableOpacity style={styles.loginButton}
                 onPress={()=> navigation.navigate('Main')}>
-                    <Text style={styles.loginText}>WELCOME</Text>
+                    <Text style={styles.loginText}>Start Workout</Text>
                 </TouchableOpacity>
         </View>
     );
@@ -58,31 +58,31 @@ const styles = StyleSheet.create({
         borderWidth: 2,              
         borderRadius: 10,                          
         bottom: height / 2 - height*0.4,
-        left: width / 2 - 125,
+        left: width / 2 - 165,
         height: 75,       
-        width: 250,   
+        width: 330,   
         justifyContent: 'center',
         alignItems: 'center', 
       },
       loginText: {
-        fontFamily: 'Pixel-Regular',           
+        fontFamily: 'PixelRegular',           
         color: 'white',                 
-        fontSize: 45,                               
+        fontSize: 42,                               
       },
       workoutText: {
         color: 'black',
-        fontFamily: 'Comfortaa-Regular',
+        fontFamily: 'ComfortaaBold',
         letterSpacing: -0.7,
-        fontSize: 55,
+        fontSize: 65,
         textAlign: "center",
         position: "absolute",
       },
       workout: {
-        top: height / 2 - 175,
-        marginLeft: width / 2 - 50,
+        top: height / 2 - 195,
+        marginLeft: width / 2 - 75,
       },
       tracker: {
-        top: height / 2 - 100,
-        marginLeft: width / 2 + 10,
+        top: height / 2 - 120,
+        marginLeft: width / 2 - 30,
       }
 });

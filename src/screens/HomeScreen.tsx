@@ -1,20 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Image , StatusBar, TouchableOpacity} from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Dimensions, Image, StatusBar, TouchableOpacity, BackHandler, Alert } from 'react-native';
 
 
 interface HomeScreenProps {
     navigation: any;
 }
 
-export const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
+export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     // Status bar properties
     StatusBar.setBarStyle('light-content');
     StatusBar.setHidden(false);
-    
+
+    // Handle back button
+    useEffect(() => {
+        const handleBackButton = () => {
+            Alert.alert('Closing App', 'Exiting the application?', [{
+                text: 'CANCEL',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+            }, {
+                text: 'EXIT',
+                onPress: () => BackHandler.exitApp()
+            },], {
+                cancelable: false
+            }
+            )
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackButton
+        );
+        return () => backHandler.remove();
+    }, []);
+
+    // Home Screen
     return (
         <View style={styles.container}>
-            <View style={styles.header}></View>
-            <Text style={styles.content}>Home Screen</Text>
+            <Text style={styles.headerText}>No Pain,   No Gains.</Text>
+            <View style={styles.content}>
+            </View>
         </View>
     );
 };
@@ -26,19 +51,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#1c1c1e',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
-    backgroundImage: {
-        flex: 15,
-        resizeMode: 'cover',
-        opacity: 0.65, 
-    },
-    header: {
-        flex: 0.7,
+    headerText: {
+        flex: 1,
+        marginTop: 75,
+        fontSize: 30,
+        fontFamily: 'Granite',
+        color: 'lightgrey',
     },
     content: {
-        fontSize: 20,
-        color: '#fff',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 5,
+        backgroundColor: '#fff',
     }
 });

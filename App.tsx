@@ -1,46 +1,68 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import * as Font from 'expo-font';
-import Apploading from "expo-app-loading"
-import * as SplashScreen from 'expo-splash-screen';
-
-import { AppNavigator } from './src/screens/AppNavigator';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Dimensions, Image, StatusBar, TouchableOpacity, BackHandler, Alert } from 'react-native';
 
 
-
-
-const loadCustomFonts = async () => {
-  await Font.loadAsync({
-    'Comfortaa-Regular': require('./fonts/Comfortaa-Regular.ttf'),
-    'RobotoMono-Regular': require('./fonts/RobotoMono-Regular.ttf'),
-    'RobotoMono-Bold': require('./fonts/RobotoMono-Bold.ttf'),
-    'Pixel-Regular': require('./fonts/PixelifySans-Regular.ttf'),
-  });
-};
-
-export default function App() {
-  const [isReady, setIsReady] = useState(false);
-
-  if (!isReady) {
-    return (
-      <Apploading
-        startAsync={loadCustomFonts}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
-  }
-
-  return (
-    <AppNavigator />
-  );
+interface HomeScreenProps {
+    navigation: any;
 }
 
+export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+    // Status bar properties
+    StatusBar.setBarStyle('light-content');
+    StatusBar.setHidden(false);
+
+    // Handle back button
+    useEffect(() => {
+        const handleBackButton = () => {
+            Alert.alert('Closing App', 'Exiting the application?', [{
+                text: 'CANCEL',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+            }, {
+                text: 'EXIT',
+                onPress: () => BackHandler.exitApp()
+            },], {
+                cancelable: false
+            }
+            )
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackButton
+        );
+        return () => backHandler.remove();
+    }, []);
+
+    // Home Screen
+    return (
+        <View style={styles.container}>
+            <Text style={styles.headerText}>No Pain,   No Gains.</Text>
+            <View style={styles.content}>
+            </View>
+        </View>
+    );
+};
+
+// Obtain width and height
+const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#1c1c1e',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    headerText: {
+        flex: 1,
+        marginTop: 75,
+        fontSize: 30,
+        fontFamily: 'Granite',
+        color: 'lightgrey',
+    },
+    content: {
+        flex: 5,
+        backgroundColor: '#fff',
+    }
 });

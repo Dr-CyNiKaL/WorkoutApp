@@ -16,6 +16,19 @@ import { SettingScreen } from './SettingScreen';
 
 
 
+const Stack = createStackNavigator();
+
+export const AppNavigator = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Landing" component={LandingScreen} />
+        <Stack.Screen name="Main" component={BottomTabNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
 const Tab = createMaterialBottomTabNavigator();
 function BottomTabNavigator() {
   return (
@@ -48,21 +61,6 @@ function BottomTabNavigator() {
     </Tab.Navigator>
   );
 }
-
-
-
-const Stack = createStackNavigator();
-
-export const AppNavigator = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Landing" component={LandingScreen} />
-        <Stack.Screen name="Main" component={BottomTabNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
 
 const styles = StyleSheet.create({
     container: {
