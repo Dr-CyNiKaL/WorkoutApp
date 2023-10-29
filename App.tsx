@@ -1,60 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import * as Font from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-
-import { AppNavigator } from './src/screens/AppNavigator';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Dimensions, Image, StatusBar, TouchableOpacity, BackHandler, Alert } from 'react-native';
 
 
-
-
-
-const loadCustomFonts = async () => {
-  const fontsLoaded = await Font.loadAsync({
-    ComfortaaRegular: require('./fonts/Comfortaa-Regular.ttf'),
-    ComfortaaBold: require('./fonts/Comfortaa-Bold.ttf'),
-    RobotoMonoRegular: require('./fonts/RobotoMono-Regular.ttf'),
-    RobotoMonoBold: require('./fonts/RobotoMono-Bold.ttf'),
-    PixelRegular: require('./fonts/PixelifySans-Regular.ttf'),
-    Granite: require('./fonts/Granite-Bgvl.ttf'),
-  });
-  console.log('Font loading result:', fontsLoaded);
-};
-
-export default function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
-  useEffect(() => {
-    (async () => {
-      try {
-        await SplashScreen.preventAutoHideAsync();
-        await loadCustomFonts();
-      }
-      catch {
-        console.log('Font loading failed');
-      }
-      finally {
-        setAppIsReady(true);
-      }
-    })();
-  }, []);
-
-  if (appIsReady) {
-    SplashScreen.hideAsync();
-  }
-  if (!appIsReady) {
-    return null;
-  }
-
-  return (
-    <View style={styles.container}>
-      <AppNavigator />
-    </View>
-  );
+interface HomeScreenProps {
+    navigation: any;
 }
 
+export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+    // Status bar properties
+    StatusBar.setBarStyle('light-content');
+    StatusBar.setHidden(false);
+
+    // Handle back button
+    useEffect(() => {
+        const handleBackButton = () => {
+            Alert.alert('Closing App', 'Exiting the application?', [{
+                text: 'CANCEL',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+            }, {
+                text: 'EXIT',
+                onPress: () => BackHandler.exitApp()
+            },], {
+                cancelable: false
+            }
+            )
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackButton
+        );
+        return () => backHandler.remove();
+    }, []);
+
+    // Home Screen
+    return (
+        <View style={styles.container}>
+            <Text style={styles.headerText}>No Pain,   No Gains.</Text>
+            <View style={styles.content}>
+            </View>
+        </View>
+    );
+};
+
+// Obtain width and height
+const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1c1c1e',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#1c1c1e',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    headerText: {
+        flex: 1,
+        marginTop: 75,
+        fontSize: 30,
+        fontFamily: 'Granite',
+        color: 'lightgrey',
+    },
+    content: {
+        flex: 5,
+        backgroundColor: '#fff',
+    }
 });
