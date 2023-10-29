@@ -1,49 +1,60 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Image } from 'react-native';
 import * as Font from 'expo-font';
-import Apploading from "expo-app-loading"
+import * as SplashScreen from 'expo-splash-screen';
 
-import { LandingScreen } from './src/screens/LandingScreen';
-import { HomeScreen } from './src/screens/HomeScreen';
 import { AppNavigator } from './src/screens/AppNavigator';
 
 
+
+
+
 const loadCustomFonts = async () => {
-  await Font.loadAsync({
-    'Comfortaa-Regular': require('./fonts/Comfortaa-Regular.ttf'),
-    'RobotoMono-Regular': require('./fonts/RobotoMono-Regular.ttf'),
-    'RobotoMono-Bold': require('./fonts/RobotoMono-Bold.ttf'),
-    'Pixel-Regular': require('./fonts/PixelifySans-Regular.ttf'),
+  const fontsLoaded = await Font.loadAsync({
+    ComfortaaRegular: require('./fonts/Comfortaa-Regular.ttf'),
+    ComfortaaBold: require('./fonts/Comfortaa-Bold.ttf'),
+    RobotoMonoRegular: require('./fonts/RobotoMono-Regular.ttf'),
+    RobotoMonoBold: require('./fonts/RobotoMono-Bold.ttf'),
+    PixelRegular: require('./fonts/PixelifySans-Regular.ttf'),
+    Granite: require('./fonts/Granite-Bgvl.ttf'),
   });
+  console.log('Font loading result:', fontsLoaded);
 };
 
 export default function App() {
-  const [isReady, setIsReady] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+        await loadCustomFonts();
+      }
+      catch {
+        console.log('Font loading failed');
+      }
+      finally {
+        setAppIsReady(true);
+      }
+    })();
+  }, []);
 
-  if (!isReady) {
-    return (
-      <Apploading
-        startAsync={loadCustomFonts}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
+  if (appIsReady) {
+    SplashScreen.hideAsync();
+  }
+  if (!appIsReady) {
+    return null;
   }
 
   return (
-    <AppNavigator />
+    <View style={styles.container}>
+      <AppNavigator />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#1c1c1e',
   },
 });
