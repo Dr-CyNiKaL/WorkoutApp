@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import { StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import Apploading from "expo-app-loading"
+import * as SplashScreen from 'expo-splash-screen';
 
-import { LandingScreen } from './src/screens/LandingScreen';
-import { HomeScreen } from './src/screens/HomeScreen';
 import { AppNavigator } from './src/screens/AppNavigator';
+
+
 
 
 const loadCustomFonts = async () => {

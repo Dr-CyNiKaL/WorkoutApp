@@ -26,7 +26,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({navigation}) => {
                 <Text style={[styles.workout, styles.workoutText]}>Workout</Text>
                 <Text style={[styles.tracker, styles.workoutText]}>Tracker</Text>
                 <TouchableOpacity style={styles.loginButton}
-                onPress={()=> navigation.navigate('Home')}>
+                onPress={()=> navigation.navigate('Main')}>
                     <Text style={styles.loginText}>WELCOME</Text>
                 </TouchableOpacity>
         </View>
